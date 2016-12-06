@@ -20,6 +20,7 @@
     2，有后期效果的，需要设置EnableEffects属性：后期效果的名字(多个用分号分隔)，否则生成的视频效果和之前差很多的哦！！！比如：
     ColorCorrectionCurves;ToneMapping;Bloom
     3，这个脚本只是用来生成视频的图片，需要ffmpeg来把图片合并成视频
-     ![说明文字](/frame_00001.jpg)
 ### 主要参考文献(urneal4)：
     https://www.unrealengine.com/zh-CN/blog/capturing-stereoscopic-360-screenshots-videos-movies-unreal-engine-4
+
+![说明文字](/frame_00001.jpg)
