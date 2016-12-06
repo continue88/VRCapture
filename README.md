@@ -2,6 +2,7 @@
 
 ### 简介
     用来做unity3d下面的vr视频抓取，也就是360度上下3D视频抓取。
+![设置示例](/StereoCaptureScript.png)
 ### 使用方法：
     1，把StereoCapture脚本拖放到抓取的物体上（相当于眼睛的位置）
     2，将材质球Bilt拖放到脚本的Bilt Material属性上
@@ -12,6 +13,8 @@
     5，利用ffmpeg合成视频
       ffmpeg.exe -framerate 60 -i Captures/frame_%%5d.jpg -c:v libx264 -profile:v high -level 4.2 -r 60 -pix_fmt yuv420p -crf 18 -preset slower MyMovie_360_TB.mp4
     6，生成的视频拷贝到VR设备上，可以到VR设备上播放了（如三星gearvr，occlus，htc-vive什么的）
+
+![菜单右键](/CaptureMenu.png)
 ### 编辑器测试
     1，拖放StereoCapture脚本上去之后，选择object右键菜单选择[Capture]
     2，在目标文件夹下面会生成一个图片
@@ -20,7 +23,8 @@
     2，有后期效果的，需要设置EnableEffects属性：后期效果的名字(多个用分号分隔)，否则生成的视频效果和之前差很多的哦！！！比如：
     ColorCorrectionCurves;ToneMapping;Bloom
     3，这个脚本只是用来生成视频的图片，需要ffmpeg来把图片合并成视频
+    
 ### 主要参考文献(urneal4)：
     https://www.unrealengine.com/zh-CN/blog/capturing-stereoscopic-360-screenshots-videos-movies-unreal-engine-4
 
-![说明文字](/frame_00001.jpg)
+![抓图示例](/frame_00001.jpg)
