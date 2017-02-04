@@ -14,18 +14,16 @@ public class StereoCapture : MonoBehaviour
     const int BuffFrame = 2;
 
     public Material BiltMaterial;
-    public string CaptureFolder = "d:\\Captures";
+    public string CaptureFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "/VRCaptures";
     public string EnableEffects;
     public int StartFrame = 0;
     public int EndFrame = -1;
     public int CaptureFrameRate = 60;
-    public int Port = 3069;
     public bool CaptureStart;
 
     int mFrameIdx = 0;
     Camera mCaptureCamera;
     GameObject mCameraRoot;
-    SimpleTcpServer mTcpServer;
     RenderFrame[] mRenderFrames;
     Texture2D mResolveTexture;
 
@@ -40,8 +38,6 @@ public class StereoCapture : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        mTcpServer = new SimpleTcpServer();
-        mTcpServer.StartAccept(Port, StartCapture, StopCapture);
     }
 
     void OnDestroy()
@@ -127,7 +123,6 @@ public class StereoCapture : MonoBehaviour
         {
             DumpFrame(curFrame,
                 CaptureFolder,
-                mTcpServer,
                 CaptureQuality,
                 false);
         }
@@ -149,7 +144,6 @@ public class StereoCapture : MonoBehaviour
     static void DumpFrame(
         RenderFrame frame,
         string captureFolder,
-        SimpleTcpServer tcpServer,
         int quality,
         bool losslessPNG)
     {
@@ -163,15 +157,7 @@ public class StereoCapture : MonoBehaviour
 
         RenderTexture.active = null;
         frame.ResolveTexture.Apply();
-        if (tcpServer != null && tcpServer.Capturing)
-        {
-            var pixels32 = frame.ResolveTexture.GetRawTextureData();
-            tcpServer.Send(frame.FrameCount,
-                frame.ResolveTexture.width,
-                frame.ResolveTexture.height,
-                pixels32);
-        }
-        else if (!string.IsNullOrEmpty(captureFolder))
+        if (!string.IsNullOrEmpty(captureFolder))
         {
             // write to file.
             var fileName = string.Format("frame_{0}.{1}", frame.FrameCount.ToString("D5"), losslessPNG ? "png" : "jpg");
@@ -222,8 +208,9 @@ public class StereoCapture : MonoBehaviour
                 {
                     cameraTrans.rotation = Quaternion.Euler(
                         180.0f * ((verticalSteps / 2) - row) / verticalSteps,
-                        360.0f * col / horizontalSteps,
+                        180.0f + 360.0f * col / horizontalSteps,
                         0);
+                    // TODO: Make rotation based on attached gameobject
                     cameraTrans.position = capturePos + cameraTrans.rotation * eyeOffset;
                     // build the viewport.
                     var rect = new Rect(col * sliderWidth, row * sliderHeight, sliderWidth, sliderHeight);
@@ -284,7 +271,7 @@ public class StereoCapture : MonoBehaviour
         var camera = cameraRoot.AddComponent<Camera>();
         camera.CopyFrom(Camera.main);
         camera.nearClipPlane = NearClipPlane;
-        
+
         var frame = new RenderFrame() {
             RenderTargetLeft = new RenderTexture(CaptureWidth, CaptureHeight, 0),
             RenderTargetRight = new RenderTexture(CaptureWidth, CaptureHeight, 0),
@@ -307,7 +294,6 @@ public class StereoCapture : MonoBehaviour
         DumpFrame(
             frame,
             CaptureFolder,
-            null,
             0,
             true);
 
