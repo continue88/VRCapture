@@ -3,7 +3,7 @@
 ### Introduction
 Capture VR screenshots as well as frames for VR video in Unity. (360 captures from 2 eyes)
 
-[Setting example](/StereoCaptureScript.png)
+![Setting example](/StereoCaptureScript.png)
 
 ### Instructions：
 1. Add the `StereoCapture` script to the camera that is acting as the left eye
@@ -15,7 +15,7 @@ Capture VR screenshots as well as frames for VR video in Unity. (360 captures fr
   `ffmpeg.exe -framerate 60 -i Captures/frame_%%5d.jpg -c:v libx264 -profile:v high -level 4.2 -r 60 -pix_fmt yuv420p -crf 18 -preset slower MyMovie_360_TB.mp4` (windows example, I will add a OSX one as well)
 7. The video should be playable on VR devices, still to test YouTube
 
-[Right click on menu](/CaptureMenu.png)
+![Right click on menu](/CaptureMenu.png)
 
 ### Editor single screenshot
 1. You can click-click on the `Stereo Capture (Script)` header and there will be a `Capture` option
@@ -25,4 +25,4 @@ Capture VR screenshots as well as frames for VR video in Unity. (360 captures fr
 2. Post-processing can be controlled via the EnableEffects property: Example: `ColorCorrectionCurves;ToneMapping;Bloom`
 3. This script only writes out frames - `ffmpeg` is required to join them for a video. Audio is currently not recorded.
 
-[Example screenshot](/frame_00001.jpg)
+![Example screenshot](/frame_00001.jpg)
